@@ -1,10 +1,23 @@
 def to_roman_numeral(value: int) -> str:
+    """
+    Converts an integer value to a Roman numeral.
 
-    # check the value type and range
-    if type(value) != int or not (0 <= value < 4000):
+    Args:
+        value (int): The integer value to be converted.
+
+    Returns:
+        str: The Roman numeral representation of the input value.
+
+    Raises:
+        ValueError: If the input value is not an integer or is outside the range 0 to 3999.
+
+    """
+
+    # Check the value type and range
+    if not isinstance(value, int) or not (0 <= value < 4000):
         raise ValueError("value must be an integer number between 0 and 3999")
 
-    # roman numbers map dictionary sorted from largest to smallest
+    # Roman numbers map dictionary sorted from largest to smallest
     roman_numbers_map = {
         1000: "M",
         900: "CM",
@@ -23,29 +36,11 @@ def to_roman_numeral(value: int) -> str:
 
     result = ""
 
-    # [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
-    for num in roman_numbers_map.keys():
-
-        # find roman string in numbers map
-        roman_digit = roman_numbers_map[num]
-
-        # check how many times that value repeated
-        # example: 2196 has two 1000 so times is 2
-        times = value // num
-
-        # if the value does not include that number we can continue to other numbers
-        if times == 0:
-            continue
-
-        # new value is remainder of previous value
-        # example:  2196 remainder of 1000 is 196 so new value is 196
-        value = value % num
-
-        # new result added to previous result
-        # example: 2196 has two 1000 so "MM" added to result
-        result += roman_digit * times
-
-        if value == 0:
-            break
+    # Iterate through the roman_numbers_map in descending order
+    for num, roman_digit in roman_numbers_map.items():
+        # Repeat the current Roman digit until the value is less than the current number
+        while value >= num:
+            result += roman_digit
+            value -= num
 
     return result
