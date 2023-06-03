@@ -1,9 +1,58 @@
 import unittest
-from arabic_to_roman import to_roman_numeral
 
+class RomanNumeralConversionTests(unittest.TestCase):
 
-class TestArabicToRomanChangerFunction(unittest.TestCase):
+    def test_valid_values(self):
+        # Test valid values and their expected Roman numeral representations
+        test_cases = [
+            (1, 'I'),
+            (4, 'IV'),
+            (9, 'IX'),
+            (40, 'XL'),
+            (90, 'XC'),
+            (400, 'CD'),
+            (500, 'D'),
+            (900, 'CM'),
+            (1000, 'M'),
+            (3999, 'MMMCMXCIX'),
+        ]
 
+        for value, expected_result in test_cases:
+            result = to_roman_numeral(value)
+            self.assertEqual(result, expected_result)
+
+    def test_invalid_values(self):
+        # Test invalid values that should raise a ValueError
+        invalid_values = [
+            -1,
+            0,
+            4000,
+            3.5,
+            'abc',
+            None,
+        ]
+
+        for value in invalid_values:
+            with self.assertRaises(ValueError):
+                to_roman_numeral(value)
+
+    def test_random_values(self):
+        # Test random values and their expected Roman numeral representations
+        random_test_cases = [
+            (2, 'II'),
+            (16, 'XVI'),
+            (49, 'XLIX'),
+            (137, 'CXXXVII'),
+            (512, 'DXII'),
+            (1987, 'MCMLXXXVII'),
+            (2019, 'MMXIX'),
+            (3456, 'MMMCDLVI'),
+        ]
+
+        for value, expected_result in random_test_cases:
+            result = to_roman_numeral(value)
+            self.assertEqual(result, expected_result)
+            
     def test_functionality(self):
         # all the examples in wikipedia's Roman numerals page
         self.assertEqual(to_roman_numeral(39), 'XXXIX')
@@ -18,7 +67,7 @@ class TestArabicToRomanChangerFunction(unittest.TestCase):
         self.assertEqual(to_roman_numeral(1918), 'MCMXVIII')
         self.assertEqual(to_roman_numeral(1954), 'MCMLIV')
         self.assertEqual(to_roman_numeral(2014), 'MMXIV')
-
-
+        
+        
 if __name__ == '__main__':
     unittest.main()
